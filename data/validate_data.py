@@ -99,7 +99,7 @@ for row in employees:
             f"Active employee has Exit_Date: {row['Employee_ID']}"
         )
 
-    if status in ["resigned", "terminated"] and not exit_date:
+    if status in ["exited", "resigned", "terminated"] and not exit_date:
         errors.append(
             f"Exited employee missing Exit_Date: {row['Employee_ID']}"
         )
@@ -115,11 +115,7 @@ active_count = sum(
     for row in employees
 )
 
-exited_count = sum(
-    row["Employment_Status"].strip().lower()
-    in ["resigned", "terminated"]
-    for row in employees
-)
+exited_count = sum(row["Employment_Status"].strip().lower() in ["exited", "resigned", "terminated"] for row in employees)
 
 print("\nEMPLOYEE SUMMARY")
 print("-" * 30)
