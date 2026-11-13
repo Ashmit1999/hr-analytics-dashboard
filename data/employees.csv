@@ -1,2 +1,52 @@
 
 Employee_ID,Employee_Name,Gender,Age,Department,Designation,Location,Joining_Date,Employment_Status,Employment_Type,Annual_CTC,Attendance_Percentage,Performance_Rating,Recruitment_Source,Exit_Date
+EMP001,Aarav Sharma,Male,29,Engineering,Software Engineer,Bengaluru,2021-03-07,Active,Full-time,360000,89,2.9,LinkedIn,
+EMP002,Priya Verma,Female,36,Human Resources,HR Executive,Hyderabad,2022-06-14,Active,Full-time,400000,96,3.0,Naukri,
+EMP003,Rahul Singh,Male,26,Finance,Finance Analyst,Pune,2023-09-21,Active,Full-time,450000,85,3.1,Employee Referral,
+EMP004,Ananya Gupta,Female,33,Sales,Sales Executive,Gurugram,2024-12-01,Active,Contract,490000,92,3.2,Company Careers Page,
+EMP005,Vikram Rao,Male,23,Marketing,Digital Marketing Executive,Chennai,2025-03-08,Active,Full-time,530000,99,3.3,Consultancy,
+EMP006,Neha Kapoor,Female,30,Customer Support,Support Associate,Bengaluru,2021-06-15,Active,Full-time,570000,88,3.4,LinkedIn,
+EMP007,Arjun Mehta,Male,37,IT Support,IT Support Engineer,Hyderabad,2022-09-22,Exited,Full-time,610000,95,3.5,Naukri,2024-11-23
+EMP008,Sneha Iyer,Female,27,Operations,Operations Analyst,Pune,2023-12-02,Active,Contract,660000,84,3.6,Employee Referral,
+EMP009,Karan Malhotra,Male,34,Engineering,Senior Software Engineer,Gurugram,2024-03-09,Active,Full-time,700000,91,3.7,Company Careers Page,
+EMP010,Pooja Nair,Female,24,Human Resources,HR Generalist,Chennai,2025-06-16,Active,Full-time,740000,98,3.8,Consultancy,
+EMP011,Rohan Das,Male,31,Finance,Accounts Executive,Bengaluru,2021-09-23,Active,Full-time,780000,87,3.9,LinkedIn,
+EMP012,Ishita Jain,Female,38,Sales,Business Development Executive,Hyderabad,2022-12-03,Active,Contract,320000,94,4.0,Naukri,
+EMP013,Aditya Kumar,Male,28,Marketing,Marketing Analyst,Pune,2023-03-10,Exited,Full-time,360000,83,4.1,Employee Referral,2025-05-08
+EMP014,Kavya Reddy,Female,35,Customer Support,Customer Success Executive,Gurugram,2024-06-17,Active,Full-time,400000,90,4.2,Company Careers Page,
+EMP015,Manish Yadav,Male,25,IT Support,System Administrator,Chennai,2025-09-24,Active,Full-time,450000,97,4.3,Consultancy,
+EMP016,Divya Menon,Female,32,Operations,Process Associate,Bengaluru,2021-12-04,Active,Contract,490000,86,4.4,LinkedIn,
+EMP017,Siddharth Bose,Male,22,Engineering,QA Engineer,Hyderabad,2022-03-11,Active,Full-time,530000,93,4.5,Naukri,
+EMP018,Meera Joshi,Female,29,Human Resources,Talent Acquisition Specialist,Pune,2023-06-18,Active,Full-time,570000,82,4.6,Employee Referral,
+EMP019,Nikhil Shah,Male,36,Finance,Finance Analyst,Gurugram,2024-09-25,Exited,Full-time,610000,89,4.7,Company Careers Page,2026-10-20
+EMP020,Ritika Sinha,Female,26,Sales,Sales Executive,Chennai,2025-12-05,Active,Contract,660000,96,4.8,Consultancy,
+EMP021,Varun Bhat,Male,33,Marketing,Digital Marketing Executive,Bengaluru,2021-03-12,Active,Full-time,700000,85,4.9,LinkedIn,
+EMP022,Aditi Mishra,Female,23,Customer Support,Support Associate,Hyderabad,2022-06-19,Active,Full-time,740000,92,5.0,Naukri,
+EMP023,Sanjay Patel,Male,30,IT Support,IT Support Engineer,Pune,2023-09-26,Active,Full-time,780000,99,2.8,Employee Referral,
+EMP024,Tanya Roy,Female,37,Operations,Operations Analyst,Gurugram,2024-12-06,Active,Contract,320000,88,2.9,Company Careers Page,
+EMP025,Deepak Gupta,Male,27,Engineering,Software Engineer,Chennai,2025-03-13,Active,Full-time,360000,95,3.0,Consultancy,
+EMP026,Simran Kaur,Female,34,Human Resources,HR Executive,Bengaluru,2021-06-20,Exited,Full-time,400000,84,3.1,LinkedIn,2022-10-16
+EMP027,Mohit Agarwal,Male,24,Finance,Accounts Executive,Hyderabad,2022-09-27,Active,Full-time,450000,91,3.2,Naukri,
+EMP028,Shreya Kulkarni,Female,31,Sales,Business Development Executive,Pune,2023-12-07,Active,Contract,490000,98,3.3,Employee Referral,
+EMP029,Abhishek Tiwari,Male,38,Marketing,Marketing Analyst,Gurugram,2024-03-14,Active,Full-time,530000,87,3.4,Company Careers Page,
+EMP030,Nandini Rao,Female,28,Customer Support,Customer Success Executive,Chennai,2025-06-21,Active,Full-time,570000,94,3.5,Consultancy,
+EMP031,Harsh Vardhan,Male,35,IT Support,System Administrator,Bengaluru,2021-09-01,Active,Full-time,610000,83,3.6,LinkedIn,
+EMP032,Riya Chatterjee,Female,25,Operations,Process Associate,Hyderabad,2022-12-08,Exited,Contract,660000,90,3.7,Naukri,2023-04-01
+EMP033,Gaurav Jain,Male,32,Engineering,Senior Software Engineer,Pune,2023-03-15,Active,Full-time,700000,97,3.8,Employee Referral,
+EMP034,Maya Thomas,Female,22,Human Resources,HR Generalist,Gurugram,2024-06-22,Active,Full-time,740000,86,3.9,Company Careers Page,
+EMP035,Akash Pandey,Male,29,Finance,Finance Analyst,Chennai,2025-09-02,Active,Full-time,780000,93,4.0,Consultancy,
+EMP036,Swati Desai,Female,36,Sales,Sales Executive,Bengaluru,2021-12-09,Active,Contract,320000,82,4.1,LinkedIn,
+EMP037,Kunal Bansal,Male,26,Marketing,Digital Marketing Executive,Hyderabad,2022-03-16,Active,Full-time,360000,89,4.2,Naukri,
+EMP038,Tanvi Shetty,Female,33,Customer Support,Support Associate,Pune,2023-06-23,Exited,Full-time,400000,96,4.3,Employee Referral,2024-10-13
+EMP039,Prateek Mishra,Male,23,IT Support,IT Support Engineer,Gurugram,2024-09-03,Active,Full-time,450000,85,4.4,Company Careers Page,
+EMP040,Lavanya Pillai,Female,30,Operations,Operations Analyst,Chennai,2025-12-10,Active,Contract,490000,92,4.5,Consultancy,
+EMP041,Saurabh Saxena,Male,37,Engineering,QA Engineer,Bengaluru,2021-03-17,Active,Full-time,530000,99,4.6,LinkedIn,
+EMP042,Komal Arora,Female,27,Human Resources,Talent Acquisition Specialist,Hyderabad,2022-06-24,Active,Full-time,570000,88,4.7,Naukri,
+EMP043,Yash Thakur,Male,34,Finance,Accounts Executive,Pune,2023-09-04,Active,Full-time,610000,95,4.8,Employee Referral,
+EMP044,Anjali Roy,Female,24,Sales,Business Development Executive,Gurugram,2024-12-11,Exited,Contract,660000,84,4.9,Company Careers Page,2025-04-25
+EMP045,Rajat Khanna,Male,31,Marketing,Marketing Analyst,Chennai,2025-03-18,Active,Full-time,700000,91,5.0,Consultancy,
+EMP046,Sakshi Sood,Female,38,Customer Support,Customer Success Executive,Bengaluru,2021-06-25,Active,Full-time,740000,98,2.8,LinkedIn,
+EMP047,Abhinav Rao,Male,28,IT Support,System Administrator,Hyderabad,2022-09-05,Active,Full-time,780000,87,2.9,Naukri,
+EMP048,Nisha Paul,Female,35,Operations,Process Associate,Pune,2023-12-12,Active,Contract,320000,94,3.0,Employee Referral,
+EMP049,Amit Choudhary,Male,25,Engineering,Software Engineer,Gurugram,2024-03-19,Exited,Full-time,360000,83,3.1,Company Careers Page,2026-05-26
+EMP050,Mitali Sen,Female,32,Human Resources,HR Executive,Chennai,2025-06-26,Active,Full-time,400000,90,3.2,Consultancy,
