@@ -512,9 +512,17 @@ with tab6:
             )
         )
 
+        source_data["Successful_Hires"] = pd.to_numeric(
+            source_data["Successful_Hires"], errors="coerce"
+        ).fillna(0).astype("float64")
+
+        source_data["Total_Applications"] = pd.to_numeric(
+            source_data["Total_Applications"], errors="coerce"
+        ).fillna(0).astype("float64")
+
         source_data["Hiring_Conversion_%"] = (
-            source_data["Successful_Hires"].astype(float)
-            / source_data["Total_Applications"].astype(float)
+            source_data["Successful_Hires"].to_numpy(dtype="float64")
+            / source_data["Total_Applications"].to_numpy(dtype="float64")
             * 100
         )
         
