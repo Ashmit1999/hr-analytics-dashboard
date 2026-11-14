@@ -15,7 +15,6 @@ EMPLOYEE_PATH = DATA_DIR / "employees.csv"
 RECRUITMENT_PATH = DATA_DIR / "recruitment.csv"
 PAYROLL_PATH = DATA_DIR / "payroll.csv"
 
-
 # --------------------------------------------------
 # DATA LOADING
 # --------------------------------------------------
@@ -48,26 +47,24 @@ def load_data():
         recruitment["Joining_Date"], errors="coerce"
     )
 
-   
-payroll_numeric_columns = [
-    "Headcount",
-    "Gross_Payroll",
-    "Employee_Deductions",
-    "Net_Payroll",
-    "Employer_Contributions",
-    "Total_Employer_Cost"
-]
+    payroll_numeric_columns = [
+        "Headcount",
+        "Gross_Payroll",
+        "Employee_Deductions",
+        "Net_Payroll",
+        "Employer_Contributions",
+        "Total_Employer_Cost"
+    ]
 
-for col in payroll_numeric_columns:
-    payroll[col] = pd.to_numeric(
-        payroll[col].astype(str).str.replace(",", "", regex=False),
-        errors="coerce"
-    )
+    for col in payroll_numeric_columns:
+        payroll[col] = pd.to_numeric(
+            payroll[col].astype(str).str.replace(",", "", regex=False),
+            errors="coerce"
+        )
 
     payroll["Month"] = payroll["Month"].astype(str)
 
     return df, recruitment, payroll
-
 
 try:
     df, recruitment, payroll = load_data()
