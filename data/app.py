@@ -97,9 +97,7 @@ st.divider()
 
 st.sidebar.header("Dashboard Filters")
 
-departments = ["All"] + sorted(
-    df["Department"].dropna().unique().tolist()
-)
+departments = ["All", "IT", "HR", "Finance", "Operations"]
 
 locations = ["All"] + sorted(
     df["Location"].dropna().unique().tolist()
