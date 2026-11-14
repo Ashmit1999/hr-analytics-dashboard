@@ -495,19 +495,29 @@ with tab6:
         st.subheader("Recruitment Source Analysis")
 
         source_data = (
-            rec.groupby("Source")
+            rec.assign(
+                _Joined_Flag=(
+                    rec["Hiring_Status"]
+                    .astype(str)
+                    .str.strip()
+                    .str.lower()
+                    .eq("joined")
+                    .astype(int)
+                )
+            )
+            .groupby("Source")
             .agg(
                 Total_Applications=("Requisition_ID", "count"),
-                Successful_Hires=("Requisition_ID",
-                                  lambda x: joined_mask.loc[x.index].sum())
+                Successful_Hires=("_Joined_Flag", "sum")
             )
         )
 
         source_data["Hiring_Conversion_%"] = (
-            source_data["Successful_Hires"]
-            / source_data["Total_Applications"] * 100
+            source_data["Successful_Hires"].astype(float)
+            / source_data["Total_Applications"].astype(float)
+            * 100
         )
-
+        
         st.dataframe(
             source_data.round(2),
             use_container_width=True
