@@ -658,6 +658,7 @@ with tab7:
 
 st.line_chart(monthly_trend)
 
+        
         # Department payroll
 
         st.subheader(
@@ -684,12 +685,7 @@ st.line_chart(monthly_trend)
         )
 
         st.dataframe(
-            dept_payroll.style.format({
-                "Gross_Payroll": "₹{:,.0f}",
-                "Net_Payroll": "₹{:,.0f}",
-                "Employer_Contributions": "₹{:,.0f}",
-                "Total_Employer_Cost": "₹{:,.0f}"
-            }),
+            dept_payroll,
             use_container_width=True
         )
 
