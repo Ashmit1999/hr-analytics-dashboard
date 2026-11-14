@@ -519,7 +519,11 @@ with tab6:
         source_data["Total_Applications"] = pd.to_numeric(
             source_data["Total_Applications"], errors="coerce"
         ).fillna(0).astype("float64")
-
+        
+        st.write("DEBUG: Source data types")
+        st.write(source_data.dtypes)
+        st.write(source_data)
+        
         source_data["Hiring_Conversion_%"] = (
             source_data["Successful_Hires"].to_numpy(dtype="float64")
             / source_data["Total_Applications"].to_numpy(dtype="float64")
