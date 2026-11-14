@@ -48,17 +48,21 @@ def load_data():
         recruitment["Joining_Date"], errors="coerce"
     )
 
-    for col in [
-        "Headcount",
-        "Gross_Payroll",
-        "Employee_Deductions",
-        "Net_Payroll",
-        "Employer_Contributions",
-        "Total_Employer_Cost"
-    ]:
-        payroll[col] = pd.to_numeric(
-            payroll[col], errors="coerce"
-        )
+   
+payroll_numeric_columns = [
+    "Headcount",
+    "Gross_Payroll",
+    "Employee_Deductions",
+    "Net_Payroll",
+    "Employer_Contributions",
+    "Total_Employer_Cost"
+]
+
+for col in payroll_numeric_columns:
+    payroll[col] = pd.to_numeric(
+        payroll[col].astype(str).str.replace(",", "", regex=False),
+        errors="coerce"
+    )
 
     payroll["Month"] = payroll["Month"].astype(str)
 
@@ -648,7 +652,11 @@ with tab7:
             .sort_index()
         )
 
-        st.line_chart(monthly_trend)
+        monthly_trend = monthly_trend.apply(
+    pd.to_numeric, errors="coerce"
+).fillna(0)
+
+st.line_chart(monthly_trend)
 
         # Department payroll
 
