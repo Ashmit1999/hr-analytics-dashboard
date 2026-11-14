@@ -642,6 +642,7 @@ with tab7:
 
         st.subheader("Monthly Payroll Cost Trend")
 
+       
         monthly_trend = (
             pay.groupby("Month")
             .agg(
@@ -653,12 +654,11 @@ with tab7:
         )
 
         monthly_trend = monthly_trend.apply(
-    pd.to_numeric, errors="coerce"
-).fillna(0)
+            pd.to_numeric, errors="coerce"
+        ).fillna(0)
 
-st.line_chart(monthly_trend)
+        st.line_chart(monthly_trend)
 
-        
         # Department payroll
 
         st.subheader(
@@ -679,6 +679,7 @@ st.line_chart(monthly_trend)
                 )
             )
         )
+
 
         st.bar_chart(
             dept_payroll["Gross_Payroll"]
