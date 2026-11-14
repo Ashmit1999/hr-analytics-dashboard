@@ -1,0 +1,11 @@
+Requisition_ID,Department,Job_Title,Open_Date,Offer_Date,Joining_Date,Hiring_Status,Source,Recruiter
+REQ001,IT,Python Developer,2026-01-02,2026-01-20,2026-02-02,Joined,LinkedIn,Recruiter A
+REQ002,HR,HR Generalist,2026-01-05,2026-01-25,2026-02-10,Joined,Indeed,Recruiter B
+REQ003,IT,Java Developer,2026-02-01,2026-02-22,2026-03-05,Joined,Referral,Recruiter A
+REQ004,Finance,Finance Executive,2026-02-10,2026-03-01,2026-03-15,Joined,Naukri,Recruiter C
+REQ005,IT,Data Analyst,2026-03-01,2026-03-20,2026-04-01,Joined,LinkedIn,Recruiter A
+REQ006,HR,HR Executive,2026-03-05,2026-03-25,,In Progress,Indeed,Recruiter B
+REQ007,IT,Software Tester,2026-04-01,2026-04-18,,Offered,Referral,Recruiter A
+REQ008,Operations,Operations Executive,2026-04-05,,,In Progress,Naukri,Recruiter C
+REQ009,IT,Frontend Developer,2026-04-10,,,Rejected,LinkedIn,Recruiter A
+REQ010,Finance,Accountant,2026-05-01,2026-05-20,2026-06-01,Joined,Naukri,Recruiter C
