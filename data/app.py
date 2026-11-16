@@ -97,7 +97,22 @@ st.divider()
 
 st.sidebar.header("Dashboard Filters")
 
-departments = ["All", "IT", "HR", "Finance", "Operations"]
+
+# Dynamic Department List
+
+df["Department"] = (
+    df["Department"]
+    .fillna("Unknown")
+    .astype(str)
+    .str.strip()
+)
+
+departments = ["All"] + sorted(
+    df.loc[
+        df["Department"] != "",
+        "Department"
+    ].unique().tolist()
+)
 
 locations = ["All"] + sorted(
     df["Location"].dropna().unique().tolist()
@@ -787,7 +802,12 @@ with tab8:
 
     st.subheader("Department-wise Analysis")
 
-    dept_df = df.copy()
+   dept_df = df.copy()
+
+if selected_department != "All":
+    dept_df = dept_df[
+        dept_df["Department"] == selected_department
+    ]
 
     # Clean department and status fields
     dept_df["Department"] = (
