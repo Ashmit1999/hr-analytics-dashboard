@@ -1041,6 +1041,80 @@ with tab8:
         hide_index=True
     )
 
+    
+    # ==================================================
+    # STAGE 9: EMPLOYEE DATA QUALITY AUDIT
+    # ==================================================
+
+    st.divider()
+
+    st.subheader("Employee Data Quality Audit")
+
+    audit_df = df.copy()
+
+    # Remove whitespace-only values for audit purposes
+    audit_df = audit_df.replace(
+        r"^\s*$", pd.NA, regex=True
+    )
+
+    total_records = len(audit_df)
+
+    duplicate_ids = (
+        audit_df["Employee_ID"]
+        .dropna()
+        .duplicated()
+        .sum()
+    )
+
+    missing_ids = audit_df["Employee_ID"].isna().sum()
+
+    col1, col2, col3 = st.columns(3)
+
+    col1.metric("Total Employee Records", total_records)
+
+    col2.metric("Duplicate Employee IDs", int(duplicate_ids))
+
+    col3.metric("Missing Employee IDs", int(missing_ids))
+
+    st.subheader("Missing Values by Column")
+
+    missing_data = (
+        audit_df.isna()
+        .sum()
+        .reset_index()
+    )
+
+    missing_data.columns = [
+        "Column Name",
+        "Missing Records"
+    ]
+
+    st.dataframe(
+        missing_data,
+        use_container_width=True,
+        hide_index=True
+    )
+
+    st.subheader("Employment Status Validation")
+
+    status_audit = (
+        audit_df["Employment_Status"]
+        .fillna("Missing")
+        .value_counts()
+        .reset_index()
+    )
+
+    status_audit.columns = [
+        "Employment Status",
+        "Employee Count"
+    ]
+
+    st.dataframe(
+        status_audit,
+        use_container_width=True,
+        hide_index=True
+    )
+
     # --------------------------------------------------
     # FOOTER NOTE
     # --------------------------------------------------
