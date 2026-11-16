@@ -787,8 +787,150 @@ with tab8:
 
     st.subheader("Department-wise Analysis")
 
-    st.info(
-        "Department Analysis module is under development."
+    dept_df = df.copy()
+
+    # Clean department and status fields
+    dept_df["Department"] = (
+        dept_df["Department"]
+        .fillna("Unknown")
+        .astype(str)
+        .str.strip()
+    )
+
+    dept_df["Employment_Status"] = (
+        dept_df["Employment_Status"]
+        .fillna("Unknown")
+        .astype(str)
+        .str.strip()
+        .str.lower()
+    )
+
+    dept_df["Annual_CTC"] = pd.to_numeric(
+        dept_df["Annual_CTC"], errors="coerce"
+    )
+
+    # Separate active and exited employees
+    active_df = dept_df[
+        dept_df["Employment_Status"] == "active"
+    ]
+
+    exited_df = dept_df[
+        dept_df["Employment_Status"].isin(
+            ["exited", "resigned", "terminated"]
+        )
+    ]
+
+    # --------------------------------------------------
+    # DEPARTMENT KPI CARDS
+    # --------------------------------------------------
+
+    col1, col2, col3 = st.columns(3)
+
+    col1.metric(
+        "Total Active Employees",
+        len(active_df)
+    )
+
+    col2.metric(
+        "Total Departments",
+        active_df["Department"].nunique()
+    )
+
+    col3.metric(
+        "Total Exits",
+        len(exited_df)
+    )
+
+    st.divider()
+
+    # --------------------------------------------------
+    # DEPARTMENT-WISE HEADCOUNT
+    # --------------------------------------------------
+
+    st.subheader("Department-wise Headcount")
+
+    headcount = (
+        active_df.groupby("Department")
+        .size()
+        .reset_index(name="Headcount")
+        .sort_values("Headcount", ascending=False)
+    )
+
+    st.bar_chart(
+        headcount.set_index("Department")
+    )
+
+    # --------------------------------------------------
+    # GENDER DISTRIBUTION
+    # --------------------------------------------------
+
+    st.subheader("Gender Distribution by Department")
+
+    gender_data = pd.crosstab(
+        active_df["Department"],
+        active_df["Gender"].fillna("Unknown")
+    )
+
+    st.bar_chart(gender_data)
+
+    # --------------------------------------------------
+    # AVERAGE ANNUAL CTC
+    # --------------------------------------------------
+
+    st.subheader("Department-wise Average Annual CTC")
+
+    avg_ctc = (
+        active_df.groupby("Department")["Annual_CTC"]
+        .mean()
+        .reset_index(name="Average Annual CTC")
+    )
+
+    st.bar_chart(
+        avg_ctc.set_index("Department")
+    )
+
+    # --------------------------------------------------
+    # DEPARTMENT-WISE EXIT ANALYSIS
+    # --------------------------------------------------
+
+    st.subheader("Department-wise Employee Exits")
+
+    exit_data = (
+        exited_df.groupby("Department")
+        .size()
+        .reset_index(name="Employee Exits")
+    )
+
+    st.bar_chart(
+        exit_data.set_index("Department")
+    )
+
+    # --------------------------------------------------
+    # DEPARTMENT COMPARISON TABLE
+    # --------------------------------------------------
+
+    st.subheader("Department Comparison")
+
+    comparison = headcount.merge(
+        avg_ctc,
+        on="Department",
+        how="left"
+    )
+
+    comparison = comparison.merge(
+        exit_data,
+        on="Department",
+        how="left"
+    )
+
+    comparison["Employee Exits"] = (
+        comparison["Employee Exits"].fillna(0).astype(int)
+    )
+
+    st.dataframe(
+        comparison,
+        use_container_width=True,
+        hide_index=True
     )
 
 # --------------------------------------------------
