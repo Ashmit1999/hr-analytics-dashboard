@@ -575,8 +575,8 @@ with tab6:
         use_container_width=True,
         hide_index=True
     )
-
-       st.caption(
+    
+    st.caption(
         "Open-to-Join Days = Joining Date minus Requisition Open Date, "
         "for Joined records. Offer acceptance is not calculated "
         "from joining dates. Source conversion uses successful hires "
