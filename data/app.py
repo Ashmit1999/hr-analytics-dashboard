@@ -584,15 +584,34 @@ with tab6:
     )
 
 # ==================================================
-# TAB 7: PAYROLL ANALYTICS
+# TAB 7: ADVANCED PAYROLL ANALYTICS
 # ==================================================
 
 with tab7:
 
-    st.subheader("Payroll Analytics Dashboard")
+    st.subheader("Advanced Payroll Analytics Dashboard")
 
     pay = payroll.copy()
 
+    # Ensure payroll columns are numeric
+    numeric_columns = [
+        "Headcount",
+        "Gross_Payroll",
+        "Employee_Deductions",
+        "Net_Payroll",
+        "Employer_Contributions",
+        "Total_Employer_Cost"
+    ]
+
+    for col in numeric_columns:
+        pay[col] = pd.to_numeric(
+            pay[col].astype(str).str.replace(",", "", regex=False),
+            errors="coerce"
+        ).fillna(0)
+
+    pay["Month"] = pay["Month"].astype(str)
+
+    # Department filter
     if selected_department != "All":
         pay = pay[
             pay["Department"] == selected_department
@@ -600,6 +619,7 @@ with tab7:
 
     if not pay.empty:
 
+        # Month selection
         available_months = sorted(
             pay["Month"].dropna().unique().tolist()
         )
@@ -613,16 +633,25 @@ with tab7:
 
         monthly_pay = pay[
             pay["Month"] == selected_month
-        ]
+        ].copy()
 
-        # Latest month payroll KPIs
-
+        # Calculate KPIs
         gross_total = monthly_pay["Gross_Payroll"].sum()
         deductions_total = monthly_pay["Employee_Deductions"].sum()
         net_total = monthly_pay["Net_Payroll"].sum()
+        employer_contribution = monthly_pay["Employer_Contributions"].sum()
         employer_cost = monthly_pay["Total_Employer_Cost"].sum()
+        total_headcount = monthly_pay["Headcount"].sum()
 
-        p1, p2 = st.columns(2)
+        avg_cost_per_employee = (
+            employer_cost / total_headcount
+            if total_headcount > 0 else 0
+        )
+
+        # KPI Cards
+        st.subheader("Payroll Summary")
+
+        p1, p2, p3 = st.columns(3)
 
         p1.metric(
             "Gross Payroll",
@@ -634,45 +663,50 @@ with tab7:
             f"₹{net_total:,.0f}"
         )
 
-        p3, p4 = st.columns(2)
-
         p3.metric(
+            "Total Employer Cost",
+            f"₹{employer_cost:,.0f}"
+        )
+
+        p4, p5, p6 = st.columns(3)
+
+        p4.metric(
             "Employee Deductions",
             f"₹{deductions_total:,.0f}"
         )
 
-        p4.metric(
-            "Total Employer Cost",
-            f"₹{employer_cost:,.0f}"
+        p5.metric(
+            "Employer Contributions",
+            f"₹{employer_contribution:,.0f}"
+        )
+
+        p6.metric(
+            "Avg. Cost per Employee",
+            f"₹{avg_cost_per_employee:,.0f}"
         )
 
         st.divider()
 
         # Monthly payroll trend
+        st.subheader("Monthly Payroll Trends")
 
-        st.subheader("Monthly Payroll Cost Trend")
-
-       
         monthly_trend = (
             pay.groupby("Month")
             .agg(
                 Gross_Payroll=("Gross_Payroll", "sum"),
                 Net_Payroll=("Net_Payroll", "sum"),
-                Employer_Cost=("Total_Employer_Cost", "sum")
+                Total_Employer_Cost=("Total_Employer_Cost", "sum")
             )
             .sort_index()
         )
 
-        monthly_trend = monthly_trend.apply(
-            pd.to_numeric, errors="coerce"
-        ).fillna(0)
-
         st.line_chart(monthly_trend)
 
-        # Department payroll
+        st.divider()
 
+        # Department-wise payroll analysis
         st.subheader(
-            f"Department-wise Payroll - {selected_month}"
+            f"Department-wise Payroll Analysis - {selected_month}"
         )
 
         dept_payroll = (
@@ -680,19 +714,20 @@ with tab7:
             .agg(
                 Headcount=("Headcount", "sum"),
                 Gross_Payroll=("Gross_Payroll", "sum"),
+                Employee_Deductions=("Employee_Deductions", "sum"),
                 Net_Payroll=("Net_Payroll", "sum"),
-                Employer_Contributions=(
-                    "Employer_Contributions", "sum"
-                ),
-                Total_Employer_Cost=(
-                    "Total_Employer_Cost", "sum"
-                )
+                Employer_Contributions=("Employer_Contributions", "sum"),
+                Total_Employer_Cost=("Total_Employer_Cost", "sum")
             )
         )
 
+        dept_payroll["Avg_Cost_Per_Employee"] = (
+            dept_payroll["Total_Employer_Cost"]
+            / dept_payroll["Headcount"].replace(0, pd.NA)
+        ).fillna(0)
 
         st.bar_chart(
-            dept_payroll["Gross_Payroll"]
+            dept_payroll["Total_Employer_Cost"]
         )
 
         st.dataframe(
@@ -700,9 +735,32 @@ with tab7:
             use_container_width=True
         )
 
-        # Payroll data
+        st.divider()
 
-        st.subheader("Payroll Records")
+        # Payroll cost distribution
+        st.subheader("Payroll Cost Distribution")
+
+        cost_distribution = pd.DataFrame({
+            "Cost Component": [
+                "Gross Payroll",
+                "Employer Contributions",
+                "Total Employer Cost"
+            ],
+            "Amount": [
+                gross_total,
+                employer_contribution,
+                employer_cost
+            ]
+        })
+
+        st.bar_chart(
+            cost_distribution.set_index("Cost Component")
+        )
+
+        st.divider()
+
+        # Payroll records
+        st.subheader("Monthly Payroll Records")
 
         st.dataframe(
             monthly_pay,
@@ -710,6 +768,7 @@ with tab7:
             hide_index=True
         )
 
+        # Download report
         payroll_csv = monthly_pay.to_csv(
             index=False
         ).encode("utf-8")
@@ -721,9 +780,15 @@ with tab7:
             mime="text/csv"
         )
 
-    else:
-        st.warning("No payroll records available for this department.")
+        st.caption(
+            "Average Cost per Employee = Total Employer Cost / Headcount. "
+            "Employer contributions are shown separately from gross payroll."
+        )
 
+    else:
+        st.warning(
+            "No payroll records available for this department."
+        )
 
 # --------------------------------------------------
 # FOOTER
