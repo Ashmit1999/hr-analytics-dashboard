@@ -793,7 +793,6 @@ with tab7:
             mime="text/csv"
         )
 
-
 # ==================================================
 # TAB 8: DEPARTMENT ANALYSIS
 # ==================================================
@@ -802,12 +801,12 @@ with tab8:
 
     st.subheader("Department-wise Analysis")
 
-   dept_df = df.copy()
+    dept_df = df.copy()
 
-if selected_department != "All":
-    dept_df = dept_df[
-        dept_df["Department"] == selected_department
-    ]
+    if selected_department != "All":
+        dept_df = dept_df[
+            dept_df["Department"] == selected_department
+        ]
 
     # Clean department and status fields
     dept_df["Department"] = (
