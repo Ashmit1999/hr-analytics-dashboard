@@ -447,55 +447,30 @@ with tab6:
         if not valid_hiring_days.empty else None
     )
 
-    # Offer Acceptance Rate
-
-    offers_made = int(rec["Offer_Date"].notna().sum())
-
-    accepted_offers = int(
-        (
-            rec["Offer_Date"].notna()
-            & rec["Joining_Date"].notna()
-        ).sum()
-    )
-
-    offer_acceptance_rate = (
-        accepted_offers / offers_made * 100
-        if offers_made > 0 else None
-    )
-
-    # Recruitment KPI Cards
+       # Recruitment KPI Cards
+    # Offer acceptance needs a separate acceptance record.
 
     r1, r2, r3, r4, r5 = st.columns(5)
 
-    r1.metric(
-        "Total Requisitions",
-        total_requisitions
-    )
-
-    r2.metric(
-        "Successful Hires",
-        joined_count
-    )
-
-    r3.metric(
-        "Active Pipeline",
-        open_pipeline
-    )
+    r1.metric("Total Requisitions", total_requisitions)
+    r2.metric("Successful Hires", joined_count)
+    r3.metric("Active Pipeline", open_pipeline)
 
     r4.metric(
-        "Avg. Time to Hire",
-        f"{avg_time_to_hire:.1f} Days"
-        if avg_time_to_hire is not None else "N/A"
+        "Avg. Open-to-Join Days",
+        f"{avg_time_to_hire:.1f} days"
+        if avg_time_to_hire is not None else "N/A",
+        help="Requisition Open Date to Joining Date, for Joined records."
     )
 
     r5.metric(
         "Offer Acceptance Rate",
-        f"{offer_acceptance_rate:.1f}%"
-        if offer_acceptance_rate is not None else "N/A"
+        "N/A",
+        help="Requires confirmed offer acceptance data, not joining dates."
     )
 
     st.divider()
-
+    
     # Hiring Pipeline and Source Analysis
 
     col1, col2 = st.columns(2)
@@ -601,11 +576,11 @@ with tab6:
         hide_index=True
     )
 
-    st.caption(
-        "Time to Hire = Joining Date minus Requisition Open Date. "
-        "Offer Acceptance Rate = Joined candidates divided by "
-        "records with an Offer Date. Source conversion uses "
-        "successful hires divided by recorded requisitions."
+       st.caption(
+        "Open-to-Join Days = Joining Date minus Requisition Open Date, "
+        "for Joined records. Offer acceptance is not calculated "
+        "from joining dates. Source conversion uses successful hires "
+        "divided by recorded requisitions."
     )
 
 # ==================================================
