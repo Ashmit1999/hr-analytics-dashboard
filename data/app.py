@@ -737,26 +737,24 @@ with tab7:
 
         st.divider()
 
-        # Payroll cost distribution
+        # Payroll Cost Distribution
         st.subheader("Payroll Cost Distribution")
 
         cost_distribution = pd.DataFrame({
             "Cost Component": [
                 "Gross Payroll",
-                "Employer Contributions",
-                "Total Employer Cost"
+                "Employer Contributions"
             ],
             "Amount": [
                 gross_total,
-                employer_contribution,
-                employer_cost
+                employer_contribution
             ]
         })
 
         st.bar_chart(
             cost_distribution.set_index("Cost Component")
         )
-
+        
         st.divider()
 
         # Payroll records
