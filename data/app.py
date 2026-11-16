@@ -777,6 +777,16 @@ with tab7:
             file_name=f"Payroll_Report_{selected_month}.csv",
             mime="text/csv"
         )
+        
+        # ==================================================
+# TAB 8: DEPARTMENT ANALYSIS
+# ==================================================
+
+with tab8:
+
+    st.subheader("Department-wise Analysis")
+
+    st.info("Department Analysis module is under development.")
 
         st.caption(
             "Average Cost per Employee = Total Employer Cost / Headcount. "
