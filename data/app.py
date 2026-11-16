@@ -189,16 +189,16 @@ avg_rating = filtered_df["Performance_Rating"].mean()
 # MAIN DASHBOARD TABS
 # --------------------------------------------------
 
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
     "Workforce",
     "Attrition",
     "Attendance",
     "Performance",
     "Employee Data",
     "Recruitment",
-    "Payroll"
+    "Payroll",
+    "Department Analysis"
 ])
-
 
 # ==================================================
 # TAB 1: WORKFORCE
