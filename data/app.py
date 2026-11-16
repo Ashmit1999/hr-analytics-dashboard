@@ -432,9 +432,7 @@ with tab6:
         rec_status.isin(["in progress", "offered"]).sum()
     )
 
-    rejected_count = int(
-        rec_status.eq("rejected").sum()
-    )
+    # Time to Hire
 
     rec["Time_to_Hire"] = (
         rec["Joining_Date"] - rec["Open_Date"]
@@ -449,9 +447,25 @@ with tab6:
         if not valid_hiring_days.empty else None
     )
 
-    # Recruitment KPIs
+    # Offer Acceptance Rate
 
-    r1, r2, r3, r4 = st.columns(4)
+    offers_made = int(rec["Offer_Date"].notna().sum())
+
+    accepted_offers = int(
+        (
+            rec["Offer_Date"].notna()
+            & rec["Joining_Date"].notna()
+        ).sum()
+    )
+
+    offer_acceptance_rate = (
+        accepted_offers / offers_made * 100
+        if offers_made > 0 else None
+    )
+
+    # Recruitment KPI Cards
+
+    r1, r2, r3, r4, r5 = st.columns(5)
 
     r1.metric(
         "Total Requisitions",
@@ -464,7 +478,7 @@ with tab6:
     )
 
     r3.metric(
-        "Open Hiring Pipeline",
+        "Active Pipeline",
         open_pipeline
     )
 
@@ -474,9 +488,15 @@ with tab6:
         if avg_time_to_hire is not None else "N/A"
     )
 
+    r5.metric(
+        "Offer Acceptance Rate",
+        f"{offer_acceptance_rate:.1f}%"
+        if offer_acceptance_rate is not None else "N/A"
+    )
+
     st.divider()
 
-    # Hiring status
+    # Hiring Pipeline and Source Analysis
 
     col1, col2 = st.columns(2)
 
@@ -494,13 +514,9 @@ with tab6:
 
         source_data = (
             rec.assign(
-                _Joined_Flag=(
-                    rec["Hiring_Status"]
-                    .astype(str)
-                    .str.strip()
-                    .str.lower()
-                    .eq("joined")
-                    .astype(int)
+                Source=rec["Source"].fillna("Unknown"),
+                _Joined_Flag=joined_mask.to_numpy(
+                    dtype="int64"
                 )
             )
             .groupby("Source")
@@ -510,24 +526,20 @@ with tab6:
             )
         )
 
-        source_data["Successful_Hires"] = pd.to_numeric(
-            source_data["Successful_Hires"], errors="coerce"
-        ).fillna(0).astype("float64")
+        total_apps = pd.to_numeric(
+            source_data["Total_Applications"],
+            errors="coerce"
+        ).to_numpy(dtype="float64")
 
-        source_data["Total_Applications"] = pd.to_numeric(
-            source_data["Total_Applications"], errors="coerce"
-        ).fillna(0).astype("float64")
-        
-        st.write("DEBUG: Source data types")
-        st.write(source_data.dtypes)
-        st.write(source_data)
-        
+        successful = pd.to_numeric(
+            source_data["Successful_Hires"],
+            errors="coerce"
+        ).to_numpy(dtype="float64")
+
         source_data["Hiring_Conversion_%"] = (
-            source_data["Successful_Hires"].to_numpy(dtype="float64")
-            / source_data["Total_Applications"].to_numpy(dtype="float64")
-            * 100
+            successful / total_apps * 100
         )
-        
+
         st.dataframe(
             source_data.round(2),
             use_container_width=True
@@ -535,14 +547,18 @@ with tab6:
 
     st.divider()
 
-    # Monthly recruitment trends
+    # Monthly Recruitment Trends
 
     st.subheader("Monthly Hiring Trends")
 
     monthly_hires = (
         rec.dropna(subset=["Joining_Date"])
         .assign(
-            Month=lambda x: x["Joining_Date"].dt.to_period("M").astype(str)
+            Month=lambda x: (
+                x["Joining_Date"]
+                .dt.to_period("M")
+                .astype(str)
+            )
         )
         .groupby("Month")
         .size()
@@ -553,18 +569,20 @@ with tab6:
     else:
         st.info("No joining records available.")
 
-    # Department-wise recruitment
+    # Department-wise Recruitment
 
     st.subheader("Department-wise Recruitment")
 
     department_hiring = (
-        rec.groupby("Department")
+        rec.assign(
+            _Joined_Flag=joined_mask.to_numpy(
+                dtype="int64"
+            )
+        )
+        .groupby("Department")
         .agg(
             Total_Requisitions=("Requisition_ID", "count"),
-            Successful_Hires=(
-                "Requisition_ID",
-                lambda x: joined_mask.loc[x.index].sum()
-            )
+            Successful_Hires=("_Joined_Flag", "sum")
         )
     )
 
@@ -573,7 +591,7 @@ with tab6:
         use_container_width=True
     )
 
-    # Recruitment records
+    # Recruitment Records
 
     st.subheader("Recruitment Records")
 
@@ -585,10 +603,10 @@ with tab6:
 
     st.caption(
         "Time to Hire = Joining Date minus Requisition Open Date. "
-        "Source conversion uses successful hires divided by "
-        "recorded requisitions, not unique candidates."
+        "Offer Acceptance Rate = Joined candidates divided by "
+        "records with an Offer Date. Source conversion uses "
+        "successful hires divided by recorded requisitions."
     )
-
 
 # ==================================================
 # TAB 7: PAYROLL ANALYTICS
