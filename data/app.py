@@ -998,6 +998,7 @@ with tab8:
 
     st.bar_chart(employment_data)
 
+
     # --------------------------------------------------
     # DEPARTMENT COMPARISON TABLE
     # --------------------------------------------------
@@ -1007,17 +1008,31 @@ with tab8:
     comparison = headcount.merge(
         avg_ctc,
         on="Department",
-        how="left"
+        how="outer"
     )
 
     comparison = comparison.merge(
-        exit_data,
+        attrition_data,
         on="Department",
         how="left"
     )
 
-    comparison["Employee Exits"] = (
-        comparison["Employee Exits"].fillna(0).astype(int)
+    comparison = comparison.merge(
+        performance_data,
+        on="Department",
+        how="left"
+    )
+
+    comparison = comparison.merge(
+        employment_data.reset_index(),
+        on="Department",
+        how="left"
+    )
+
+    comparison = comparison.fillna(0)
+
+    comparison = comparison.rename(
+        columns={"Headcount": "Active Employees"}
     )
 
     st.dataframe(
@@ -1026,13 +1041,12 @@ with tab8:
         hide_index=True
     )
 
-# --------------------------------------------------
-# FOOTER
-# --------------------------------------------------
+    # --------------------------------------------------
+    # FOOTER NOTE
+    # --------------------------------------------------
 
-st.divider()
-
-st.caption(
-    "HR Analytics Dashboard | Advanced Workforce Intelligence | "
-    "Fictional Demonstration Data | 2026"
-)
+    st.caption(
+        "Department comparison includes workforce, "
+        "compensation, attrition, performance and "
+        "employment type metrics."
+    )
