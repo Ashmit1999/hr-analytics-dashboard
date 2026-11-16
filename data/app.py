@@ -924,6 +924,80 @@ with tab8:
         exit_data.set_index("Department")
     )
 
+    
+    # --------------------------------------------------
+    # DEPARTMENT-WISE ATTRITION RATE
+    # --------------------------------------------------
+
+    st.subheader("Department-wise Attrition Rate")
+
+    total_employees = (
+        dept_df.groupby("Department")
+        .size()
+        .reset_index(name="Total Employees")
+    )
+
+    attrition_data = (
+        exited_df.groupby("Department")
+        .size()
+        .reset_index(name="Exited Employees")
+    )
+
+    attrition_data = total_employees.merge(
+        attrition_data,
+        on="Department",
+        how="left"
+    )
+
+    attrition_data["Exited Employees"] = (
+        attrition_data["Exited Employees"].fillna(0)
+    )
+
+    attrition_data["Attrition Rate (%)"] = (
+        attrition_data["Exited Employees"]
+        / attrition_data["Total Employees"] * 100
+    ).round(2)
+
+    st.bar_chart(
+        attrition_data.set_index("Department")[
+            "Attrition Rate (%)"
+        ]
+    )
+
+    # --------------------------------------------------
+    # PERFORMANCE ANALYSIS
+    # --------------------------------------------------
+
+    st.subheader("Department-wise Performance Analysis")
+
+    active_df["Performance_Rating"] = pd.to_numeric(
+        active_df["Performance_Rating"],
+        errors="coerce"
+    )
+
+    performance_data = (
+        active_df.groupby("Department")["Performance_Rating"]
+        .mean()
+        .reset_index(name="Average Performance Rating")
+    )
+
+    st.bar_chart(
+        performance_data.set_index("Department")
+    )
+
+    # --------------------------------------------------
+    # EMPLOYMENT TYPE DISTRIBUTION
+    # --------------------------------------------------
+
+    st.subheader("Employment Type Distribution")
+
+    employment_data = pd.crosstab(
+        active_df["Department"],
+        active_df["Employment_Type"].fillna("Unknown")
+    )
+
+    st.bar_chart(employment_data)
+
     # --------------------------------------------------
     # DEPARTMENT COMPARISON TABLE
     # --------------------------------------------------
