@@ -947,7 +947,7 @@ with tab8:
         attrition_data,
         on="Department",
         how="left"
-    )
+        )
 
     attrition_data["Exited Employees"] = (
         attrition_data["Exited Employees"].fillna(0)
@@ -959,7 +959,7 @@ with tab8:
     ).round(2)
 
     st.write("Department-wise Attrition Calculation")
-st.dataframe(attrition_data, use_container_width=True)
+    st.dataframe(attrition_data, use_container_width=True)
 
     st.bar_chart(
         attrition_data.set_index("Department")[
